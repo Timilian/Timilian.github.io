@@ -221,24 +221,24 @@ $ npm install</code></pre>
 <pre><code class="hljs bash">$ hexo g
 $ hexo server</code></pre>
 <p>在瀏覽器中輸入<code>localhost:4000</code>，就可以看到初始化博客的模樣：</p>
-<p><img src="C:%5CCodeTools%5Chexo%5Csource%5Cimg%5Cpost%5CHexo-homepage-screenshot.png" srcset="/img/loading.gif" alt=""></p>
+<p><img src="/img/post/Hexo-homepage-screenshot.png" srcset="/img/loading.gif" alt=""></p>
 <p>使用ctrl+c關閉服務。</p>
 <h2 id="4-生成密鑰"><a href="#4-生成密鑰" class="headerlink" title="4. 生成密鑰"></a>4. 生成密鑰</h2><p>Git Bash中運行命令</p>
 <pre><code class="hljs bash">$ ssh-keygen -t rsa -C <span class="hljs-string">"hexo"</span> //可任意命名，作爲鏈接gcp時的UserName</code></pre>
 
 <p>一路回車，最後在<code>~/.ssh</code>文件夾内成功生成文件<code>id_rsa</code>和<code>id_rsa.pub</code>，其中<code>id_rsa</code>為私鑰文件，<code>id_rsa.pub</code>為公鑰文件。</p>
 <h1 id="GCP操作"><a href="#GCP操作" class="headerlink" title="GCP操作"></a>GCP操作</h1><h2 id="1-創建vm实例"><a href="#1-創建vm实例" class="headerlink" title="1. 創建vm实例"></a>1. 創建vm实例</h2><p>Google Cloud Platform導航菜單中選擇<code>Compute Engine</code>–&gt;<code>虛擬機實例/VM instance</code>，并選擇<code>創建/create</code>。選擇需要創建實例的地區、實例配置及系統版本，勾選Http流量/Https流量規則。大陸地區實例地區首選香港或台灣，配置1核1.7G綽綽有餘，系統我選擇的Centos7。可參照下圖：</p>
-<p><img src="C:%5CCodeTools%5Chexo%5Csource%5Cimg%5Cpost%5CGCP-create-VMinstance-1.png" srcset="/img/loading.gif" alt=""></p>
-<p><img src="C:%5CCodeTools%5Chexo%5Csource%5Cimg%5Cpost%5CGCP-create-VMinstance-2.png" srcset="/img/loading.gif" alt=""></p>
+<p><img src="/img/post/GCP-create-VMinstance-1.png" srcset="/img/loading.gif" alt=""></p>
+<p><img src="/img/post/GCP-create-VMinstance-2.png" srcset="/img/loading.gif" alt=""></p>
 <p>選擇好后點擊<code>創建/create</code>。稍後列表中將展示創建好的實例：</p>
-<p><img src="C:%5CCodeTools%5Chexo%5Csource%5Cimg%5Cpost%5CGCP-VM-instance-list.png" srcset="/img/loading.gif" alt=""></p>
+<p><img src="/img/post/GCP-VM-instance-list.png" srcset="/img/loading.gif" alt=""></p>
 <h2 id="2-為實例配置SSH登錄"><a href="#2-為實例配置SSH登錄" class="headerlink" title="2. 為實例配置SSH登錄"></a>2. 為實例配置SSH登錄</h2><p>點擊創建好的實例名，進入實例詳情頁，點擊<code>修改/Edit</code>，在<code>SSH密鑰/SSH Keys</code>下<code>顯示和修改/Show and edit</code>中點擊<code>添加一項/Add item</code>，將前文本地生成的<code>id_rsa.pub</code>文件中的内容粘貼進文本框后，點擊<code>保存/Save</code>。</p>
-<p><img src="C:%5CCodeTools%5Chexo%5Csource%5Cimg%5Cpost%5CGCP-add-instance-ssh-key.png" srcset="/img/loading.gif" alt=""></p>
+<p><img src="/img/post/GCP-add-instance-ssh-key.png" srcset="/img/loading.gif" alt=""></p>
 <p>Git Bash中運行</p>
 <pre><code class="hljs bash">$ ssh hexo@34.96.244.178 //hexo替換為密鑰生成時所用UserName，IP替換為你所創建實例的外部IP</code></pre>
 
 <p>如下圖所示，説明SSH登錄成功。</p>
-<p><img src="C:%5CCodeTools%5Chexo%5Csource%5Cimg%5Cpost%5Cssh-link-gcp-success.png" srcset="/img/loading.gif" alt=""></p>
+<p><img src="/img/post/ssh-link-gcp-success.png" srcset="/img/loading.gif" alt=""></p>
 <p>後續將通過SSH連接到VM實例進行操作。</p>
 <h2 id="3-安裝Git和Nginx"><a href="#3-安裝Git和Nginx" class="headerlink" title="3. 安裝Git和Nginx"></a>3. 安裝Git和Nginx</h2><p>Git Bash通過SSH連接到GCP VM實例，然後運行命令：</p>
 <p>Centos7</p>
@@ -277,12 +277,12 @@ $ sudo vim post-receive</code></pre>
 
 <h2 id="7-為域名配置DNS"><a href="#7-為域名配置DNS" class="headerlink" title="7. 為域名配置DNS"></a>7. 為域名配置DNS</h2><p>cloudflare可以提供免費的DNS解析、CDN加速、網站安全管理等功能，該步驟將域名（以<code>hexo-example.tk</code>爲例）的DNS服務商設置為cloudflare。</p>
 <p>登錄cloudflare，點擊右上方<code>Add site</code>，輸入你的域名并選擇free plan后確認。稍等片刻進入DNS record編輯頁面，如下圖將域名與VM實例的IP地址綁定：</p>
-<p><img src="C:%5CCodeTools%5Chexo%5Csource%5Cimg%5Cpost%5Ccloudflare-add-site-cdn.png" srcset="/img/loading.gif" alt=""></p>
+<p><img src="/img/post/cloudflare-add-site-cdn.png" srcset="/img/loading.gif" alt=""></p>
 <p>點擊<code>Continue</code>進入<code>Change your nameservers</code>頁面，該頁面展示了兩個新的Nameserver，需要更新到freenom。</p>
 <p>在freenom的域名列表中點擊域名后的<code>Manage Domain</code>進入管理界面，<code>Management Tools</code>–&gt;<code>Nameservers</code>–&gt;<code>Use custom nameservers</code>，將cloudflare的兩個Nameserver複製到列表中并保存。</p>
-<p>![](C:\CodeTools\hexo\source\img\post\freenom manage nameservers.png)</p>
+<p>![](/img/post/freenom manage nameservers.png)</p>
 <p>修改成功后回到cloudflare頁面，點擊<code>Done, check nameservers</code>，SSL/TLS encryption mode默認選擇Full并點擊<code>Done</code>。出現下圖界面説明配置成功：（有時需等待幾分鐘）</p>
-<p><img src="C:%5CCodeTools%5Chexo%5Csource%5Cimg%5Cpost%5Ccloudflare-add-site-cdn-success.png" srcset="/img/loading.gif" alt=""></p>
+<p><img src="/img/post/cloudflare-add-site-cdn-success.png" srcset="/img/loading.gif" alt=""></p>
 <h2 id="8-配置Nginx"><a href="#8-配置Nginx" class="headerlink" title="8. 配置Nginx"></a>8. 配置Nginx</h2><p>在nginx配置目錄<code>/etc/nginx/conf.d/</code>下新建配置文件<code>hexo-blog.conf</code></p>
 <pre><code class="hljs bash">$ sudo vim /etc/nginx/conf.d/hexo-blog.conf</code></pre>
 
@@ -320,12 +320,12 @@ $ hexo d</code></pre>
 <pre><code class="hljs bash">$ npm install hexo-deployer-git --save</code></pre>
 
 <p>并重新執行上述三個命令。至此，Hexo就成功部署到GCP，可以開開心心地寫博客啦。</p>
-<p>![](C:\CodeTools\hexo\source\img\post\hexo deploy success.png)</p>
+<p>![](/img/post/hexo deploy success.png)</p>
 <h1 id="後續優化"><a href="#後續優化" class="headerlink" title="後續優化"></a>後續優化</h1><h2 id="1-Https安全訪問"><a href="#1-Https安全訪問" class="headerlink" title="1. Https安全訪問"></a>1. Https安全訪問</h2><p>你可能注意到了，博客訪問時瀏覽器提示鏈接是不安全的，若想將網站設置為Https安全訪問，可以通過cloudflare來簡單完成。</p>
 <p>登錄cloudflare，在SSL/TLS設置中<code>SSL/TLS encryption mode</code>選擇<code>Full (strict)</code>，<code>Edge Certificates</code>中HTTPS重定向打開，如圖：</p>
-<p><img src="C:%5CCodeTools%5Chexo%5Csource%5Cimg%5Cpost%5Ccloudflare-redirect-https.png" srcset="/img/loading.gif" alt=""></p>
+<p><img src="/img/post/cloudflare-redirect-https.png" srcset="/img/loading.gif" alt=""></p>
 <p><code>Origin Server</code>中點擊<code>Create Certificate</code>按鈕，</p>
-<p><img src="C:%5CCodeTools%5Chexo%5Csource%5Cimg%5Cpost%5Ccloudflare-create-https-cert.png" srcset="/img/loading.gif" alt=""></p>
+<p><img src="/img/post/cloudflare-create-https-cert.png" srcset="/img/loading.gif" alt=""></p>
 <p>選擇默認設置最終得到<code>Origin Certificate</code>及<code>Private key</code>，在服務器上分別創建文件<code>hexo-example.tk.pem</code>用來存儲<code>Origin Certificate</code>，文件<code>hexo-example.tk.key</code>用來存儲<code>Private key</code>。比如：</p>
 <pre><code class="hljs bash">$ sudo vim /etc/nginx/hexo-example.tk.pem
 $ sudo vim /etc/nginx/hexo-example.tk.key</code></pre>
